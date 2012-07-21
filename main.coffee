@@ -10,6 +10,10 @@ app.configure () ->
     app.use exp.bodyParser()
     app.use exp.methodOverride()
 
+# Articler Class
+Articler = require('./articler').Articler
+article = new Articler 'http://localhost', 5984
+
 # Run App
 app.listen 1337
 console.log 'Server running at http://localhost:1337/'
