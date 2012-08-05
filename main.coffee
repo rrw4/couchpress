@@ -17,3 +17,23 @@ article = new Articler 'http://localhost', 5984
 # Run App
 app.listen 1337
 console.log 'Server running at http://localhost:1337/'
+
+app.get '/', (req, res) ->
+    article.findAll (err, docs) ->
+        res.render 'index', {
+            locals: {
+                title: 'CouchPress'
+                articles: docs
+            }
+        }
+
+app.get '/new', (req, res) ->
+    res.render 'new', {locals: {title: 'CouchPress / New Post' }}
+
+app.post '/new', (req, res) ->
+    article.save {
+        title: req.param 'title'
+        body: req.param 'body'
+        created_at: new Date()
+    }, (err, docs) ->
+        res.redirect('/')
